@@ -7,7 +7,11 @@ authors = [
     { name = "dominik", email = "dominik@glaetzle.io" }
 ]
 requires-python = ">=3.14"
-dependencies = []
+dependencies = [
+    "pandas>=3.0.6",
+    "requests>=2.34.2",
+    "shapely>=2.2.0",
+]
 
 [project.scripts]
 data-engineering-project = "data_engineering_project:main"
