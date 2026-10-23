@@ -12,3 +12,4 @@ wheels/
 
 # data
 data/cache_bulletins
+data/station_data_cleaned.csv
