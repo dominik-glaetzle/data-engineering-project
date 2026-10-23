@@ -94,7 +94,7 @@ Rows share keys `date`/`region`, are ordered in time, and the rolling features o
 **Errors, sources of noise, redundancies?**
 - **Station-to-region mismatch**: assigned stations can be up to 93.4 km from a region.
 - **Redundant columns**: `danger_max` is fully derivable from the other 4 danger columns.
-- **Region IDs are not stable.** `AT-07-02/04/14/17` were split into finer sub-regions starting season 2022/23, and `AT-07-23/26/29` starting 2025/26 — this is why the region count grows from 29 to 47. Any per-region time split must account for this. Minor: `region_name` for `AT-07-01` changes mid-archive, and `AT-07-02`'s name contains non-breaking-space characters (TODO: sagt Claude).
+- **Region IDs are not stable.** `AT-07-02/04/14/17` were split into finer sub-regions starting season 2022/23, and `AT-07-23/26/29` starting 2025/26 — this is why the region count grows from 29 to 47. Any per-region time split must account for this. Minor: `region_name` for `AT-07-01` changes mid-archive, and `AT-07-02`'s name contains non-breaking-space characters.
 - Danger levels are expert judgement, which includes subjective variation and real experiments on the Mountain.
 
 **Is the dataset self-contained?**
