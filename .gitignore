@@ -9,3 +9,7 @@ wheels/
 # Virtual environments
 .venv
 .idea
+
+# data
+data/cache_bulletins
+data/station_data_cleaned.csv
