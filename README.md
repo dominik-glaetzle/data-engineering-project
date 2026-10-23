@@ -37,14 +37,14 @@
 |  station_name |  avalanche_region_id |
 |---|---|
 | Galtür  | AT-07-10  |
-|  Hahnenkamm-Ehrenbachhöhe | AT-07-17  |
-|  Patscherkofel | AT-07-15  |
-|  Valluga |  AT-07-07 |
-|  Schmirn |  AT-07-23 |
-|  Brunnenkogel |  AT-07-20 |
-|  Obergurgl |  AT-07-21 |
-|  Pitztaler Gletscher | AT-07-20  |
-|  Galzig |  AT-07-07 |
+| Hahnenkamm-Ehrenbachhöhe | AT-07-17  |
+| Patscherkofel | AT-07-15  |
+| Valluga |  AT-07-07 |
+| Schmirn |  AT-07-23 |
+| Brunnenkogel |  AT-07-20 |
+| Obergurgl |  AT-07-21 |
+| Pitztaler Gletscher | AT-07-20  |
+| Galzig |  AT-07-07 |
 | St. Leonhard im Pitztal  | AT-07-14  |
-|  Hintertux | AT-07-15  |
+| Hintertux | AT-07-15  |
 | Ischgl-Idalpe  | AT-07-13  |
