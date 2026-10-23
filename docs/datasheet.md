@@ -51,7 +51,7 @@ Representativeness untested. 7 winters won't cover all snowpack types and weathe
 | `danger_max` | int | `= max(danger_above, danger_below, danger_am, danger_pm)` exactly, no exceptions. **Target** |
 | `danger_above` | int | Danger level above the elevation limit. |
 | `danger_below` | float | Danger level below the limit. |
-| `elev_limit` | string | Empty when `danger_above == danger_below` (no elevation split that day) |
+| `elev_limit` | string | always non-empty whenever `danger_above != danger_below` |
 | `danger_am`, `danger_pm` | int | AM/PM danger level, not always equal to each other or to `danger_above` |
 | `problems` | string | `;`-separated EAWS problem types. Vocabulary: `wind_slab`, `persistent_weak_layers`, `gliding_snow`, `wet_snow`, `new_snow`, `favourable_situation`. |
 | `danger_patterns` | string | `;`-separated EAWS danger-pattern codes `DP1`–`DP10`, all ten occur. |
@@ -80,7 +80,7 @@ Representativeness untested. 7 winters won't cover all snowpack types and weathe
 
 **Station → region assignment** (`assign_regions.py` + `combine.py: region_weather`): per region and per variable, the 3 nearest stations with ≥30% day-coverage are combined with inverse-distance weights `1/(km+1)`. This is why `dist_*_station_km` can reach 93 km — some regions have no close station with usable data for a given variable.
 
-[TODO: station elevation is in `stations_metadata.csv` aber nich in `combined.csv`]
+[TODO: station elevation is in `stations_metadata.csv` aber nich in `combined.csv` absicht?]
 
 **Is any information missing from individual instances?**
 See missing_values.ipynb
