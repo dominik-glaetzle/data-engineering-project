@@ -10,4 +10,8 @@ wheels/
 .venv
 .idea
 
+# data
+data/cache_bulletins
+
+# Notes and stuff
 notes.md
