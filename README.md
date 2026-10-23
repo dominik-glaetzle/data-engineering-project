@@ -11,7 +11,6 @@
 - concept 2 pages
 - preprocessing
   - mining script
-  - 3 years?
 
 - https://dataset.api.hub.geosphere.at/app/frontend/station/historical/klima-v2-1h -> choose weather statios over 1500m
 - match avalanche regions across those stations from 2019 - 2025
