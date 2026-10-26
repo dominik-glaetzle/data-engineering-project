@@ -80,7 +80,7 @@ A sample on two axes: 7 winters (season boundaries vary, roughly late Nov–earl
 Rows share keys `date`/`region`, are ordered in time, and the rolling features overlap between consecutive days -> rows are not independent.
 
 
-**Errors, sources of noise, redundancies?**
+**Errors, sources of noise, redundancies?** (TODO: maybe we need to do sth about that. do we just do the 07-14-* so all 07-14-01 and 07-14-02 get treated as 07-14?)
 - **Region IDs are not stable.** `AT-07-02/04/14/17` split into sub-regions in 2022/23, `AT-07-23/26/29` in 2025/26 (29 → 47 regions in `combined.csv`). 3 of those split regions (`AT-07-14`, `AT-07-17`, `AT-07-23`) are in the 9 kept regions, causing the row-count bug above.
 - 3 of the 9 kept regions (`AT-07-07`, `AT-07-10`, `AT-07-15`) also had their English name changed mid-archive, `preprocessing.ipynb` backfills to the latest name.
 - Danger levels are expert judgement, which includes subjective variation and real experiments on the Mountain.
