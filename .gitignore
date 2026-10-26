@@ -15,3 +15,5 @@ data/cache_bulletins
 
 # Notes and stuff
 notes.md
+
+data/station_data_cleaned.csv

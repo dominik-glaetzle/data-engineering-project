@@ -211,6 +211,7 @@ version = "0.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "ipykernel" },
+    { name = "numpy" },
     { name = "pandas" },
     { name = "requests" },
     { name = "shapely" },
@@ -219,6 +220,7 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "ipykernel", specifier = ">=7.4.0" },
+    { name = "numpy", specifier = ">=2.5.4" },
     { name = "pandas", specifier = ">=3.0.6" },
     { name = "requests", specifier = ">=2.34.2" },
     { name = "shapely", specifier = ">=2.2.0" },
