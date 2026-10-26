@@ -9,6 +9,7 @@ authors = [
 requires-python = ">=3.14"
 dependencies = [
     "ipykernel>=7.4.0",
+    "numpy>=2.5.4",
     "pandas>=3.0.6",
     "requests>=2.34.2",
     "shapely>=2.2.0",
