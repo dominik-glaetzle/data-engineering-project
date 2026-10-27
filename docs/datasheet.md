@@ -1,9 +1,9 @@
 # Datasheet for the Dataset: Tyrol Avalanche Danger Level and Snow/Weather Features
-## By Dominik Glätzle and Malte Braig
 
-**Project:** Data Analysis Project, Foundations of Data Engineering and Analytics
-**Version / date:** v0.6, 2026-10-27
-**Research question:** How accurately can the avalanche warning level issued by LWD Tirol be predicted from weather and snow data of previous days, and which factors (temperature, wind, precipitation, snow depth) are key to this prediction?
+**Project:** Data Analysis Project, Foundations of Data Engineering and Analytics  
+**Authors:** Dominik Glätzle, Malte Braig
+**Version / date:** v0.6, 2026-10-27  
+**Research question:** How accurately can the avalanche warning level issued by LWD Tirol be predicted from weather and snow data of previous days, and which factors (temperature, wind, precipitation, snow depth) are key to this prediction?  
 
 ---
 
@@ -70,8 +70,6 @@ It is a sample on two axes: 7 winters (season boundaries vary, roughly late Nov�
 | `snow_depth_cm` | float | cm (param `sh`), clipped to `>= 0` (no-op). |
 | `precip_sum_mm` | float | mm (param `rr`), clipped to `>= 0` (no-op). |
 
-**[TODO]** Station elevation is present in `stations_metadata.csv` but not in `final.csv` — is this intentional?
-
 **Is any information missing from individual instances?**
 `danger_below` (0.74%) and `tendency` (0.13%) are genuine missing values, while missing `elev_limit`/`problems` values were replaced with sentinel strings. 0.87% of rows contain at least one missing value.
 
@@ -132,9 +130,9 @@ The scripts are located in `../src/data_engineering_project/data_scripts`: `mine
 
 **Anything that might affect future use?**
 - The target is a human forecast, not an observed avalanche, so a model learns to imitate forecasters rather than predict avalanches.
-- 7 winters is a small, possibly unrepresentative sample, and only 9 of Tyrol's regions are included — it may not generalize to the rest of Tyrol.
+- 7 winters is a small, possibly unrepresentative sample, and only 9 of Tyrol's regions are included, it may not generalize to the rest of Tyrol.
 - Point station data + large regions limit how precisely the features describe where danger arises.
-- Class imbalance, `danger_max`: 1 = 14.2%, 2 = 50.7%, 3 = 30.8%, 4 = 4.3%, **5 = 0 rows** — the dataset cannot be used to learn level 5.
+- Class imbalance, `danger_max`: 1 = 14.2%, 2 = 50.7%, 3 = 30.8%, 4 = 4.3%, **5 = 0 rows**, the dataset cannot be used to learn level 5.
 
 **It should not be used for:** real avalanche safety decisions; use official bulletins and local assessment instead.
 
