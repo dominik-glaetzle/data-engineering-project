@@ -14,8 +14,7 @@ Steps
 import numpy as np
 import pandas as pd
 
-from assign_stations_to_regions import nearest_stations
-
+from .assign_stations_to_regions import nearest_stations
 TZ = "Europe/Vienna"
 
 # variable -> how it is aggregated over the 24 h window of one station
