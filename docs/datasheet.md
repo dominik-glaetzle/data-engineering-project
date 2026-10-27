@@ -52,7 +52,7 @@ A sample on two axes: 7 winters (season boundaries vary, roughly late Nov–earl
 | `danger_am`, `danger_pm` | int | AM/PM danger level, not always equal to each other or to `danger_above`. |
 | `problems` | string | `;`-separated EAWS problem types, or sentinel `no_avalanche_problem` (478 rows, previously empty). |
 | `tendency` | string | `steady`, `increasing`, `decreasing`, or missing (0.12%). |
-| `published` | timestamp | Bulletin publish time, now local time + UTC offset (was UTC `Z` in `combine.py`'s output). |
+| `published` | timestamp | Bulletin publish time, now local time + UTC offset (was UTC `Z` in `combine_stations_and_avalanche.py`'s output). |
 | `n_bulletins` | int | 1 (8362 rows) or 2 (9 rows). |
 | `days_before` | int | Days between publish date and valid date: `1` for 90% of rows, `0` for 10% — worth confirming this doesn't conflict with the leakage cutoff (which uses publish *time*, not just date). |
 | `station_name` | string | Single named station manually matched to each region (e.g. `AT-07-07` → `Valluga`). |
@@ -69,7 +69,7 @@ A sample on two axes: 7 winters (season boundaries vary, roughly late Nov–earl
 | `sunshine_sum` | float | hours (param `so_h`). |
 | `snow_depth_cm` | float | cm (param `sh`), clipped to `>= 0` (no-op). |
 | `precip_sum_mm` | float | mm (param `rr`), clipped to `>= 0` (no-op). |
-| `air_temp_mean_3d`, `wind_gust_max_3d` | float | 3-day rolling mean / max per region (from `combine.py`). |
+| `air_temp_mean_3d`, `wind_gust_max_3d` | float | 3-day rolling mean / max per region (from `combine_stations_and_avalanche.py`). |
 
 **[TODO]** Station Höhe is in `stations_metadata.csv` but not in `final_avalanche_data.csv` — intentional?
 
@@ -98,11 +98,11 @@ No, built from external sources e.g. raw downloads from archives.
 ## 3. Collection Process
 
 **How was the data acquired?**
-- **Danger levels:** produced by LWD Tirol forecasters, as CAAML v6 JSON (`avalanche_euregio.py`).
-- **Weather/snow:** observed hourly at GeoSphere stations (`klima-v2-1h`), aggregated to station-day then region-day then rolling windows (`combine.py`), then filtered to 9 regions and cleaned (`preprocessing.ipynb` to `final_avalanche_data.csv`).
+- **Danger levels:** produced by LWD Tirol forecasters, as CAAML v6 JSON (`mine_avalanche_bulletins.py`).
+- **Weather/snow:** observed hourly at GeoSphere stations (`klima-v2-1h`), aggregated to station-day then region-day then rolling windows (`combine_stations_and_avalanche.py`), then filtered to 9 regions and cleaned (`preprocessing.ipynb` to `final_avalanche_data.csv`).
 
 **Mechanisms/procedures used for collection?**
-Scripts live in `src/data_engineering_project/data-scripts/`: `avalanche_euregio.py` downloads/parses bulletins, `assign_regions.py` + `combine.py` build `combined.csv`. `preprocessing.ipynb` then reads `data/combined_cleaned.csv` and writes `final_avalanche_data.csv`.
+Scripts live in `../src/data_engineering_project/data_scripts`: `mine_avalanche_bulletins.py` downloads/parses bulletins, `assign_stations_to_regions.py` + `combine_stations_and_avalanche.py` build `combined.csv`. `preprocessing.ipynb` then reads `data/combined_cleaned.csv` and writes `final_avalanche_data.csv`.
 
 **Sampling strategy?** Deterministic: all bulletin days within the 7 selected winters.
 
@@ -116,16 +116,16 @@ Scripts live in `src/data_engineering_project/data-scripts/`: `avalanche_euregio
 
 ## 4. Preprocessing / Cleaning / Labeling
 
-- Bulletins reduced to one row per (`date`, `region`), `danger_max = max(above, below, am, pm)`, `elev_limit` empty if `above == below`. (`combine.py` -> `combined.csv`)
-- Station values assigned to regions via 3-nearest, inverse-distance weighting with a 30% coverage filter. (`combine.py`/`assign_regions.py`)
-- Derived: 24h/72h snow-depth deltas, 3-/7-day precip sums, 3-day temp mean, 3-day gust max — computed in `combine.py`, but snow-delta/precip-rolling columns are dropped again in `preprocessing.ipynb`.
+- Bulletins reduced to one row per (`date`, `region`), `danger_max = max(above, below, am, pm)`, `elev_limit` empty if `above == below`. (`combine_stations_and_avalanche.py` -> `combined.csv`)
+- Station values assigned to regions via 3-nearest, inverse-distance weighting with a 30% coverage filter. (`combine_stations_and_avalanche.py`/`assign_stations_to_regions.py`)
+- Derived: 24h/72h snow-depth deltas, 3-/7-day precip sums, 3-day temp mean, 3-day gust max — computed in `combine_stations_and_avalanche.py`, but snow-delta/precip-rolling columns are dropped again in `preprocessing.ipynb`.
 - No unit conversions, units kept same as GeoSphere.
 - Leakage control: 24h feature window ends exactly at the bulletin's publish cutoff (17:00 local
 - Rolling-window "degenerate" values on many seasons' first day (`wind_gust_max_3d == wind_gust_max`)
 - `preprocessing.ipynb` additionally: filters to 9 regions, drops duplicate `(region, date)` rows (0 found), sanity-clips snow/precip/humidity to valid ranges (all no-ops), fills `elev_limit`/`problems` sentinels, backfills `region_name`.
 
 
-**Is the preprocessing software available?** Yes: `preprocessing.ipynb`, `avalanche_euregio.py`, `assign_regions.py`, `combine.py`. (`combined_cleaned.csv` from preprocessing.ipynb is nt in the repo).
+**Is the preprocessing software available?** Yes: `preprocessing.ipynb`, `mine_avalanche_bulletins.py`, `assign_stations_to_regions.py`, `combine_stations_and_avalanche.py`. (`combined_cleaned.csv` from preprocessing.ipynb is nt in the repo).
 
 ---
 
