@@ -14,7 +14,7 @@ Steps
 import numpy as np
 import pandas as pd
 
-from assign_regions import nearest_stations
+from assign_stations_to_regions import nearest_stations
 
 TZ = "Europe/Vienna"
 
@@ -51,8 +51,6 @@ def daily_station_features(df, cutoff_hour=17):
     wide = {c: d.pivot(index="date", columns="station", values=c) for c in d.columns if c not in ("date", "station", "n_hours")}
     full = pd.date_range(d.date.min(), d.date.max(), freq="D")
     wide = {c: w.reindex(full) for c, w in wide.items()}
-    wide["snow_delta_24h_cm"] = wide["snow_depth_cm"].diff(1)             # snow depth change vs previous day
-    wide["snow_delta_72h_cm"] = wide["snow_depth_cm"].diff(3)
     return wide
 
 
@@ -73,20 +71,12 @@ def region_weather(wide, stations, regions, k=3, min_coverage=0.3):
             w = 1.0 / (sel + 1.0)                                             # inverse-distance weights (+1 km avoids /0)
             Xs = X[sel.index]
             out[feat] = (Xs.fillna(0) * w).sum(axis=1) / (Xs.notna() * w).sum(axis=1).replace(0, np.nan)
-            if feat in ("snow_depth_cm", "precip_sum_mm"):
-                out[f"dist_{feat.split('_')[0]}_station_km"] = round(float(sel.min()), 1)   # how far away is the data from?
         r = pd.DataFrame(out)
         r["wind_dir_deg"] = (np.rad2deg(np.arctan2(r.pop("wind_u"), r.pop("wind_v"))) % 360).round(0)
         r.insert(0, "region", region)
         frames.append(r.rename_axis("date").reset_index())
     rw = pd.concat(frames, ignore_index=True).sort_values(["region", "date"])
 
-    # multi-day features (the windows end with the bulletin day's own features -> still no leakage)
-    g = rw.groupby("region")
-    rw["precip_sum_3d_mm"] = g.precip_sum_mm.transform(lambda s: s.rolling(3, min_periods=3).sum())
-    rw["precip_sum_7d_mm"] = g.precip_sum_mm.transform(lambda s: s.rolling(7, min_periods=7).sum())
-    rw["air_temp_mean_3d"] = g.air_temp_mean.transform(lambda s: s.rolling(3, min_periods=3).mean())
-    rw["wind_gust_max_3d"] = g.wind_gust_max.transform(lambda s: s.rolling(3, min_periods=3).max())
     return rw
 
 
